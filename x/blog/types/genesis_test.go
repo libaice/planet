@@ -31,6 +31,24 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 				},
 				PostCount: 2,
+				SentPostList: []types.SentPost{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				SentPostCount: 2,
+				TimedoutPostList: []types.TimedoutPost{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				TimedoutPostCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -58,6 +76,58 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 				},
 				PostCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated sentPost",
+			genState: &types.GenesisState{
+				SentPostList: []types.SentPost{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid sentPost count",
+			genState: &types.GenesisState{
+				SentPostList: []types.SentPost{
+					{
+						Id: 1,
+					},
+				},
+				SentPostCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated timedoutPost",
+			genState: &types.GenesisState{
+				TimedoutPostList: []types.TimedoutPost{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid timedoutPost count",
+			genState: &types.GenesisState{
+				TimedoutPostList: []types.TimedoutPost{
+					{
+						Id: 1,
+					},
+				},
+				TimedoutPostCount: 0,
 			},
 			valid: false,
 		},
